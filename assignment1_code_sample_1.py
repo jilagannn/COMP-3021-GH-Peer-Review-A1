@@ -3,6 +3,8 @@ import pymysql
 from urllib.request import urlopen
 import json
 import subprocess
+import requests
+import ssl
 
 with open("db_config.json", "r") as data:
     db_config = json.load(data)
@@ -17,9 +19,11 @@ def send_email(to, subject, body):
         input=body, text=True, check=True)
 
 def get_data():
-    url = 'http://insecure-api.com/get-data'
-    data = urlopen(url).read().decode()
-    return data
+    url = 'https://insecure-api.com/get-data'
+    # we apply and enable TLS with this
+    context = ssl.create_default_context()
+    with urlopen(url=url, context=context) as data:
+        return data
 
 def save_to_db(data):
     # used parameter for variables instead of inputting variables 
