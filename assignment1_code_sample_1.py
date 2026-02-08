@@ -22,10 +22,12 @@ def get_data():
     return data
 
 def save_to_db(data):
-    query = f"INSERT INTO mytable (column1, column2) VALUES ('{data}', 'Another Value')"
+    # used parameter for variables instead of inputting variables 
+    # directly into query
+    query = f"INSERT INTO mytable (column1, column2) VALUES (%s, 'Another Value')"
     connection = pymysql.connect(**db_config)
     cursor = connection.cursor()
-    cursor.execute(query)
+    cursor.execute(query, (data,))
     connection.commit()
     cursor.close()
     connection.close()
