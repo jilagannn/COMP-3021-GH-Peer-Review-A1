@@ -1,12 +1,10 @@
 import os
 import pymysql
 from urllib.request import urlopen
+import json
 
-db_config = {
-    'host': 'mydatabase.com',
-    'user': 'admin',
-    'password': 'secret123'
-}
+with open("db_config.json", "r") as data:
+    db_config = json.load(data)
 
 def get_user_input():
     user_input = input('Enter your name: ')
